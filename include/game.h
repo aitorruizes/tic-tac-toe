@@ -14,3 +14,4 @@ void initialize_board(char board[BOARD_SIZE][BOARD_SIZE]);
 void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 bool is_board_full(char board[BOARD_SIZE][BOARD_SIZE]);
 void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE]);
+bool has_player_won(char board[BOARD_SIZE][BOARD_SIZE]);
