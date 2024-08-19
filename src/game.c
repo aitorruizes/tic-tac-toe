@@ -30,7 +30,7 @@ int get_menu_option()
     if (result == 1 && menuOption >= 1 && menuOption <= 2)
     {
       while ((character = getchar()) != '\n' && character != EOF);
-      
+
       break;
     }
     else
@@ -42,4 +42,16 @@ int get_menu_option()
   }
 
   return menuOption;
+}
+
+void handle_menu(int menuOption)
+{
+  if (menuOption == 1)
+  {
+    printf("This is the first option\n");
+  }
+  else
+  {
+    printf("This is the second option");
+  }
 }
