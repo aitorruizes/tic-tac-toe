@@ -57,7 +57,7 @@ void handle_menu(int menuOption)
     {
       insert_player_move(board);
 
-      if (has_player_won(board) || is_board_full(board))
+      if (check_winner(board, PLAYER) || is_board_full(board))
       {
         break;
       }
@@ -137,6 +137,7 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
       if (result != 1 || rowPosition < 1 || rowPosition > BOARD_SIZE)
       {
         printf("[ERROR] Invalid row position. Please enter a valid position (1-%d).\n", BOARD_SIZE);
+
         continue;
       }
       else
@@ -156,6 +157,7 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
       if (result != 1 || columnPosition < 1 || columnPosition > BOARD_SIZE)
       {
         printf("[ERROR] Invalid column position. Please enter a valid position (1-%d).\n", BOARD_SIZE);
+
         continue;
       }
       else
@@ -182,26 +184,24 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
   print_board(board);
 }
 
-bool has_player_won(char board[BOARD_SIZE][BOARD_SIZE])
+bool check_winner(char board[BOARD_SIZE][BOARD_SIZE], char player)
 {
   for (int i = 0; i < BOARD_SIZE; i++)
   {
     if (
-      (board[i][0] == PLAYER && board[i][1] == PLAYER && board[i][2] == PLAYER) ||
-      (board[0][i] == PLAYER && board[1][i] == PLAYER && board[2][i] == PLAYER))
+      (board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
+      (board[0][i] == player && board[1][i] == player && board[2][i] == player)
+    )
     {
-      printf("[INFO] You won!\n");
-
       return true;
     }
   }
 
   if (
-    (board[0][0] == PLAYER && board[1][1] == PLAYER && board[2][2] == PLAYER) ||
-    (board[0][2] == PLAYER && board[1][1] == PLAYER && board[2][0] == PLAYER))
+    (board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+    (board[0][2] == player && board[1][1] == player && board[2][0] == player)
+  )
   {
-    printf("[INFO] You won!\n");
-
     return true;
   }
 
