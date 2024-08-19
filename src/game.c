@@ -1,5 +1,6 @@
 #include "../include/game.h"
 #include <stdio.h>
+#include <limits.h>
 
 void print_menu()
 {
@@ -29,13 +30,15 @@ int get_menu_option()
 
     if (result == 1 && menuOption >= 1 && menuOption <= 2)
     {
-      while ((character = getchar()) != '\n' && character != EOF);
+      while ((character = getchar()) != '\n' && character != EOF)
+        ;
 
       break;
     }
     else
     {
-      while ((character = getchar()) != '\n' && character != EOF);
+      while ((character = getchar()) != '\n' && character != EOF)
+        ;
 
       printf("[ERROR] Invalid input. Please enter a valid menu option (1-2).\n");
     }
@@ -57,8 +60,40 @@ void handle_menu(int menuOption)
     {
       insert_player_move(board);
 
-      if (check_winner(board, PLAYER) || is_board_full(board))
+      if (check_winner(board, PLAYER))
       {
+        printf("[INFO] You won!\n");
+
+        break;
+      }
+
+      if (is_board_full(board))
+      {
+        printf("[INFO] The game is a draw.\n");
+
+        break;
+      }
+
+      int rowPosition;
+      int columnPosition;
+
+      find_best_move(board, &rowPosition, &columnPosition);
+
+      board[rowPosition][columnPosition] = AI;
+
+      print_board(board);
+
+      if (check_winner(board, AI))
+      {
+        printf("[INFO] You lose!\n");
+
+        break;
+      }
+
+      if (is_board_full(board))
+      {
+        printf("[INFO] The game is a draw.\n");
+
         break;
       }
     }
@@ -132,7 +167,8 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
 
       result = scanf("%d", &rowPosition);
 
-      while ((character = getchar()) != '\n' && character != EOF);
+      while ((character = getchar()) != '\n' && character != EOF)
+        ;
 
       if (result != 1 || rowPosition < 1 || rowPosition > BOARD_SIZE)
       {
@@ -152,7 +188,8 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
 
       result = scanf("%d", &columnPosition);
 
-      while ((character = getchar()) != '\n' && character != EOF);
+      while ((character = getchar()) != '\n' && character != EOF)
+        ;
 
       if (result != 1 || columnPosition < 1 || columnPosition > BOARD_SIZE)
       {
@@ -189,21 +226,123 @@ bool check_winner(char board[BOARD_SIZE][BOARD_SIZE], char player)
   for (int i = 0; i < BOARD_SIZE; i++)
   {
     if (
-      (board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
-      (board[0][i] == player && board[1][i] == player && board[2][i] == player)
-    )
+        (board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
+        (board[0][i] == player && board[1][i] == player && board[2][i] == player))
     {
       return true;
     }
   }
 
   if (
-    (board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
-    (board[0][2] == player && board[1][1] == player && board[2][0] == player)
-  )
+      (board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+      (board[0][2] == player && board[1][1] == player && board[2][0] == player))
   {
     return true;
   }
 
   return false;
+}
+
+int minimax(char board[BOARD_SIZE][BOARD_SIZE], int depth, int isMaximizing)
+{
+  char player = isMaximizing ? 'O' : 'X';
+  char opponent = isMaximizing ? 'X' : 'O';
+
+  if (check_winner(board, player))
+  {
+    return 10 - depth;
+  }
+
+  if (check_winner(board, opponent))
+  {
+    return depth - 10;
+  }
+
+  if (is_board_full(board))
+  {
+    return 0;
+  }
+
+  if (isMaximizing)
+  {
+    int bestScore = INT_MIN;
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+      for (int j = 0; j < BOARD_SIZE; j++)
+      {
+        if (board[i][j] == EMPTY)
+        {
+          board[i][j] = 'O';
+
+          int score = minimax(board, depth + 1, 0);
+
+          board[i][j] = EMPTY;
+
+          if (score > bestScore)
+          {
+            bestScore = score;
+          }
+        }
+      }
+    }
+
+    return bestScore;
+  }
+  else
+  {
+    int bestScore = INT_MAX;
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+      for (int j = 0; j < BOARD_SIZE; j++)
+      {
+        if (board[i][j] == EMPTY)
+        {
+          board[i][j] = 'X';
+
+          int score = minimax(board, depth + 1, 1);
+
+          board[i][j] = EMPTY;
+
+          if (score < bestScore)
+          {
+            bestScore = score;
+          }
+        }
+      }
+    }
+
+    return bestScore;
+  }
+}
+
+void find_best_move(char board[BOARD_SIZE][BOARD_SIZE], int *bestMoveRow, int *bestMoveCol)
+{
+  int bestScore = INT_MIN;
+
+  *bestMoveRow = -1;
+  *bestMoveCol = -1;
+
+  for (int i = 0; i < BOARD_SIZE; i++)
+  {
+    for (int j = 0; j < BOARD_SIZE; j++)
+    {
+      if (board[i][j] == EMPTY)
+      {
+        board[i][j] = AI;
+
+        int score = minimax(board, 0, 0);
+
+        board[i][j] = EMPTY;
+
+        if (score > bestScore)
+        {
+          bestScore = score;
+          *bestMoveRow = i;
+          *bestMoveCol = j;
+        }
+      }
+    }
+  }
 }
