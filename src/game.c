@@ -109,12 +109,12 @@ bool is_board_full(char board[BOARD_SIZE][BOARD_SIZE])
     {
       if (board[i][j] == EMPTY)
       {
-        return false;
+        return true;
       }
     }
   }
 
-  return true;
+  return false;
 }
 
 void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
