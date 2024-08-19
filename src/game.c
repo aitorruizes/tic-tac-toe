@@ -4,16 +4,16 @@
 
 void print_menu()
 {
-  printf("+---------------------------------------+\n");
-  printf("|                                       |\n");
-  printf("|              TIC-TAC-TOE              |\n");
-  printf("|                                       |\n");
-  printf("+---------------------------------------+\n");
-  printf("|                                       |\n");
-  printf("|  [1] - Player against another player  |\n");
-  printf("|  [2] - Player against AI              |\n");
-  printf("|                                       |\n");
-  printf("+---------------------------------------+\n");
+  printf("+---------------------------------+\n");
+  printf("|                                 |\n");
+  printf("|           TIC-TAC-TOE           |\n");
+  printf("|                                 |\n");
+  printf("+---------------------------------+\n");
+  printf("|                                 |\n");
+  printf("|      [1] - Play against AI      |\n");
+  printf("|      [2] - Exit                 |\n");
+  printf("|                                 |\n");
+  printf("+---------------------------------+\n");
 }
 
 int get_menu_option()
@@ -30,15 +30,13 @@ int get_menu_option()
 
     if (result == 1 && menuOption >= 1 && menuOption <= 2)
     {
-      while ((character = getchar()) != '\n' && character != EOF)
-        ;
+      while ((character = getchar()) != '\n' && character != EOF);
 
       break;
     }
     else
     {
-      while ((character = getchar()) != '\n' && character != EOF)
-        ;
+      while ((character = getchar()) != '\n' && character != EOF);
 
       printf("[ERROR] Invalid input. Please enter a valid menu option (1-2).\n");
     }
@@ -167,8 +165,7 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
 
       result = scanf("%d", &rowPosition);
 
-      while ((character = getchar()) != '\n' && character != EOF)
-        ;
+      while ((character = getchar()) != '\n' && character != EOF);
 
       if (result != 1 || rowPosition < 1 || rowPosition > BOARD_SIZE)
       {
@@ -188,8 +185,7 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
 
       result = scanf("%d", &columnPosition);
 
-      while ((character = getchar()) != '\n' && character != EOF)
-        ;
+      while ((character = getchar()) != '\n' && character != EOF);
 
       if (result != 1 || columnPosition < 1 || columnPosition > BOARD_SIZE)
       {
@@ -226,16 +222,18 @@ bool check_winner(char board[BOARD_SIZE][BOARD_SIZE], char player)
   for (int i = 0; i < BOARD_SIZE; i++)
   {
     if (
-        (board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
-        (board[0][i] == player && board[1][i] == player && board[2][i] == player))
+      (board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
+      (board[0][i] == player && board[1][i] == player && board[2][i] == player)
+    )
     {
       return true;
     }
   }
 
   if (
-      (board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
-      (board[0][2] == player && board[1][1] == player && board[2][0] == player))
+    (board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+    (board[0][2] == player && board[1][1] == player && board[2][0] == player)
+  )
   {
     return true;
   }
