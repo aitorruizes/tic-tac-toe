@@ -5,7 +5,7 @@
 #define BOARD_SIZE 3
 #define PLAYER 'X'
 #define AI 'O'
-#define EMPTY ' '
+#define EMPTY '-'
 
 void print_menu();
 int get_menu_option();
