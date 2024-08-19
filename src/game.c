@@ -53,7 +53,10 @@ void handle_menu(int menuOption)
 
   if (menuOption == 1)
   {
-    printf("This is the first option\n");
+    while (1)
+    {
+      insert_player_move(board);
+    }
   }
   else
   {
@@ -99,7 +102,7 @@ bool is_board_full(char board[BOARD_SIZE][BOARD_SIZE])
   {
     for (int j = 0; j < BOARD_SIZE; j++)
     {
-      if (board[i][j] == '-')
+      if (board[i][j] == EMPTY)
       {
         return false;
       }
@@ -107,4 +110,69 @@ bool is_board_full(char board[BOARD_SIZE][BOARD_SIZE])
   }
 
   return true;
+}
+
+void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
+{
+  int rowPosition;
+  int columnPosition;
+  int result;
+  char character;
+
+  while (1)
+  {
+    while (1)
+    {
+      printf("[INFO] Please enter a row position (1-%d): ", BOARD_SIZE);
+
+      result = scanf("%d", &rowPosition);
+
+      while ((character = getchar()) != '\n' && character != EOF);
+
+      if (result != 1 || rowPosition < 1 || rowPosition > BOARD_SIZE)
+      {
+        printf("[ERROR] Invalid row position. Please enter a valid position (1-%d).\n", BOARD_SIZE);
+        continue;
+      }
+      else
+      {
+        break;
+      }
+    }
+
+    while (1)
+    {
+      printf("[INFO] Please enter a column position (1-%d): ", BOARD_SIZE);
+
+      result = scanf("%d", &columnPosition);
+
+      while ((character = getchar()) != '\n' && character != EOF);
+
+      if (result != 1 || columnPosition < 1 || columnPosition > BOARD_SIZE)
+      {
+        printf("[ERROR] Invalid column position. Please enter a valid position (1-%d).\n", BOARD_SIZE);
+        continue;
+      }
+      else
+      {
+        break;
+      }
+    }
+
+    rowPosition -= 1;
+    columnPosition -= 1;
+
+    if (board[rowPosition][columnPosition] == PLAYER || board[rowPosition][columnPosition] == AI)
+    {
+      printf("[ERROR] Position (%d, %d) is already occupied. Please choose another.\n", rowPosition + 1, columnPosition + 1);
+    }
+    else
+    {
+      board[rowPosition][columnPosition] = PLAYER;
+
+      break;
+    }
+  }
+
+  print_board(board);
 }
