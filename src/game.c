@@ -49,6 +49,7 @@ void handle_menu(int menuOption)
   char board[BOARD_SIZE][BOARD_SIZE];
 
   initialize_board(board);
+  print_board(board);
 
   if (menuOption == 1)
   {
@@ -67,6 +68,27 @@ void initialize_board(char board[BOARD_SIZE][BOARD_SIZE])
     for (int j = 0; j < BOARD_SIZE; j++)
     {
       board[i][j] = '-';
+    }
+  }
+}
+
+void print_board(char board[BOARD_SIZE][BOARD_SIZE])
+{
+  printf("+-----------+\n");
+
+  for (int i = 0; i < BOARD_SIZE; i++)
+  {
+    for (int j = 0; j < BOARD_SIZE; j++)
+    {
+      if (j == 2)
+      {
+        printf("| %c |\n", board[i][j]);
+        printf("+-----------+\n");
+      }
+      else
+      {
+        printf("| %c ", board[i][j]);
+      }
     }
   }
 }
