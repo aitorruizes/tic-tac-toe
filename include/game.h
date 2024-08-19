@@ -15,3 +15,5 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 bool is_board_full(char board[BOARD_SIZE][BOARD_SIZE]);
 void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE]);
 bool check_winner(char board[BOARD_SIZE][BOARD_SIZE], char player);
+int minimax(char board[BOARD_SIZE][BOARD_SIZE], int depth, int isMaximizing);
+void find_best_move(char board[BOARD_SIZE][BOARD_SIZE], int *bestMoveRow, int *bestMoveCol);
