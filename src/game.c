@@ -46,6 +46,10 @@ int get_menu_option()
 
 void handle_menu(int menuOption)
 {
+  char board[BOARD_SIZE][BOARD_SIZE];
+
+  initialize_board(board);
+
   if (menuOption == 1)
   {
     printf("This is the first option\n");
@@ -53,5 +57,16 @@ void handle_menu(int menuOption)
   else
   {
     printf("This is the second option");
+  }
+}
+
+void initialize_board(char board[BOARD_SIZE][BOARD_SIZE])
+{
+  for (int i = 0; i < BOARD_SIZE; i++)
+  {
+    for (int j = 0; j < BOARD_SIZE; j++)
+    {
+      board[i][j] = '-';
+    }
   }
 }
