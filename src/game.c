@@ -56,6 +56,11 @@ void handle_menu(int menuOption)
     while (1)
     {
       insert_player_move(board);
+
+      if (has_player_won(board) || is_board_full(board))
+      {
+        break;
+      }
     }
   }
   else
@@ -175,4 +180,30 @@ void insert_player_move(char board[BOARD_SIZE][BOARD_SIZE])
   }
 
   print_board(board);
+}
+
+bool has_player_won(char board[BOARD_SIZE][BOARD_SIZE])
+{
+  for (int i = 0; i < BOARD_SIZE; i++)
+  {
+    if (
+      (board[i][0] == PLAYER && board[i][1] == PLAYER && board[i][2] == PLAYER) ||
+      (board[0][i] == PLAYER && board[1][i] == PLAYER && board[2][i] == PLAYER))
+    {
+      printf("[INFO] You won!\n");
+
+      return true;
+    }
+  }
+
+  if (
+    (board[0][0] == PLAYER && board[1][1] == PLAYER && board[2][2] == PLAYER) ||
+    (board[0][2] == PLAYER && board[1][1] == PLAYER && board[2][0] == PLAYER))
+  {
+    printf("[INFO] You won!\n");
+
+    return true;
+  }
+
+  return false;
 }
