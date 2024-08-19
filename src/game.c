@@ -1,6 +1,7 @@
 #include "../include/game.h"
 #include <stdio.h>
 #include <limits.h>
+#include <stdlib.h>
 
 void print_menu()
 {
@@ -47,13 +48,13 @@ int get_menu_option()
 
 void handle_menu(int menuOption)
 {
-  char board[BOARD_SIZE][BOARD_SIZE];
-
-  initialize_board(board);
-  print_board(board);
-
   if (menuOption == 1)
   {
+     char board[BOARD_SIZE][BOARD_SIZE];
+
+    initialize_board(board);
+    print_board(board);
+
     while (1)
     {
       insert_player_move(board);
@@ -98,7 +99,7 @@ void handle_menu(int menuOption)
   }
   else
   {
-    printf("This is the second option");
+    exit(EXIT_SUCCESS);
   }
 }
 
