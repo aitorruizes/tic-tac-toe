@@ -92,3 +92,19 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE])
     }
   }
 }
+
+bool is_board_full(char board[BOARD_SIZE][BOARD_SIZE])
+{
+  for (int i = 0; i < BOARD_SIZE; i++)
+  {
+    for (int j = 0; j < BOARD_SIZE; j++)
+    {
+      if (board[i][j] == '-')
+      {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
